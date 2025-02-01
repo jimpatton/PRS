@@ -23,7 +23,7 @@ CREATE TABLE [User](
 	GO
 
 CREATE TABLE Vendor(
-	ID				INT				NOT NULL		PRIMARY KEY,
+	ID				INT				IDENTITY(1,1)		PRIMARY KEY,
 	Code			VARCHAR(10)		NOT NULL,
 	Name			VARCHAR(255)	NOT NULL,
 	Address			VARCHAR(255)	NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE Vendor(
 	GO
 
 CREATE TABLE [Product](
-	ID				INT				NOT NULL		PRIMARY KEY,
+	ID				INT				IDENTITY(1,1)		PRIMARY KEY,
 	VendorID		INT				NOT NULL,
 	PartNumber		VARCHAR(50)		NOT NULL,
 	Name			VARCHAR(150)	NOT NULL,
@@ -46,12 +46,32 @@ CREATE TABLE [Product](
 	Photopath		VARCHAR(255),
 	CONSTRAINT vendor_part UNIQUE (VendorID, PartNumber),
 	CONSTRAINT FK_ProductVendor FOREIGN KEY (VendorID) REFERENCES Vendor(ID)
-	)
+	);
 	GO
 
 CREATE TABLE Request(
-	ID				INT				NOT NULL		PRIMARY KEY,
-	UserID			INT				NOT NULL,
-	RequestNumber	VARCHAR(20)		NOT NULL,
-	Description		VARCHAR(100)	NOT NULL,
-	Justification	VARCHAR(255)	NOT NULL,
+	ID					INT				IDENTITY(1,1)		PRIMARY KEY,
+	UserID				INT				NOT NULL,
+	RequestNumber		VARCHAR(20)		NOT NULL,
+	Description			VARCHAR(100)	NOT NULL,
+	Justification		VARCHAR(255)	NOT NULL,
+	DateNeeded			DATE			NOT NULL,
+	DeliveryMode		VARCHAR(25)		NOT NULL,
+	Status				VARCHAR(20)		NOT NULL		default('NEW'),
+	Total				DECIMAL(10,2)	NOT NULL		default(0.0),
+	SubmittedDate		DATETIME		NOT NULL,
+	ReasonForRejection	VARCHAR(100),
+	CONSTRAINT FK_RequestUser FOREIGN KEY (UserID) REFERENCES [User](ID)
+	);
+	GO
+
+CREATE TABLE LineItem(
+	ID			INT			IDENTITY(1,1)		PRIMARY KEY,
+	RequestID	INT			NOT NULL,
+	ProductID	INT			NOT NULL,
+	Quantity	INT			NOT NULL,
+	CONSTRAINT FK_LineItemRequest FOREIGN KEY (RequestID) REFERENCES Request(ID),
+	CONSTRAINT FK_LineItemProduct FOREIGN KEY (ProductID) REFERENCES [Product](ID),
+	CONSTRAINT req_pdt UNIQUE (RequestID, ProductID)
+	);
+	GO
