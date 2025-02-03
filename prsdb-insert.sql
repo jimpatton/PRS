@@ -33,5 +33,18 @@ VALUES	(1, 'BA355', 'Beskar Armor', 1899.00),
 		(5, 'N1', 'Naboo Starfighter', 97500.00);
 
 
+INSERT INTO Request (UserID, RequestNumber, Description, Justification, DateNeeded, DeliveryMode, Status, Total, SubmittedDate)
+VALUES	(1, 'R2501180001', 'Beskar Armour', 'Body Protection', '2025-03-17', 'pickup', 'NEW', 1, '2025-02-02'),
+		(1, 'R2501180001', 'Helmet', 'Head Protection', '2025-03-17', 'pickup', 'NEW', 1, '2025-02-02'),
+		(1, 'R2501180001', 'Firespray 31 Patrol Craft', 'Transportation', '2025-03-17', 'delivery', 'NEW', 1, '2025-02-02'),
+		(2, 'R2501180002', 'Carbine Rifle', 'Defense', '2025-03-01', 'pickup', 'NEW', 1, '2025-02-02'),
+		(3, 'R2501180003', 'Jet Pack', 'Transportation', '2025-02-14', 'pickup', 'NEW', 1, '2025-02-02'); 
 
+
+INSERT INTO LineItem (RequestID, ProductID, Quantity)
+VALUES	(1, 1, 1),
+		(2, 2, 1),
+		(3, 15, 1),
+		(4, 10, 1),
+		(5, 12, 1);
 
